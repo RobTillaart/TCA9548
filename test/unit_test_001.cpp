@@ -77,7 +77,7 @@ unittest(test_enable)
   for (int chan = 0; chan < 8; chan++)
   {
     tca.enableChannel(chan);
-    assertTrue(tca.isEnabled());
+    assertTrue(tca.isEnabled(chan));
   }
   assertEqual(0xFF, tca.getChannelMask());
   tca.setChannelMask(0x00);
@@ -96,7 +96,7 @@ unittest(test_select)
   for (int chan = 0; chan < 8; chan++)
   {
     tca.selectChannel(chan);
-    assertTrue(tca.isEnabled());
+    assertTrue(tca.isEnabled(chan));
   }
   assertEqual(0x80, tca.getChannelMask());
   tca.setChannelMask(0x00);

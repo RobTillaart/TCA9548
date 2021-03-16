@@ -26,7 +26,8 @@ public:
   bool    begin(uint8_t sda, uint8_t scl, uint8_t mask = 0x00);  // default no channels enabled
 #endif
   bool    begin(uint8_t mask = 0x00);         // default no channels enabled
-  bool    isConnected();
+  bool    isConnected();                      // find multiplexer on I2C bus
+  bool    isConnected(uint8_t address);       // find any addr on I2C bus
 
   // channel = 0.. 7
   void    enableChannel(uint8_t channel);

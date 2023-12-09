@@ -26,7 +26,7 @@ class TCA9548
 {
 public:
   //  deviceAddress = 0x70 .. 0x77
-  TCA9548(const uint8_t deviceAddress, TwoWire *wire = &Wire);
+  TCA9548(uint8_t deviceAddress, TwoWire *wire = &Wire);
 
   bool    begin(uint8_t mask = 0x00);         //  default no channels enabled
   bool    isConnected();                      //  find multiplexer on I2C bus
@@ -72,7 +72,7 @@ protected:
 //
 class PCA9548 : public TCA9548
 {
-  PCA9548(const uint8_t deviceAddress, TwoWire *wire = &Wire);
+  PCA9548(uint8_t deviceAddress, TwoWire *wire = &Wire);
 };
 
 

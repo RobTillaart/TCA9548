@@ -9,7 +9,7 @@
 #include "TCA9548.h"
 
 
-TCA9548::TCA9548(const uint8_t deviceAddress, TwoWire *wire)
+TCA9548::TCA9548(uint8_t deviceAddress, TwoWire *wire)
 {
   _address  = deviceAddress;
   _wire     = wire;
@@ -150,7 +150,7 @@ int TCA9548::getError()
 //
 //  DERIVED CLASS
 //
-PCA9548(const uint8_t deviceAddress, TwoWire *wire) : TCA9548(deviceAddress, wire)
+PCA9548(uint8_t deviceAddress, TwoWire *wire) : TCA9548(deviceAddress, wire)
 {
 }
 

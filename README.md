@@ -32,9 +32,9 @@ The library caches the channels enabled, and if a channel is enabled,
 it will not be enabled again (low level) to optimize performance.
 
 
-#### 0.3.0 Breaking change
+#### 0.2.0 Breaking change
 
-Version 0.3.0 introduced a breaking change.
+Version 0.2.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
 This reduces the dependency of processor dependent Wire implementations.
 The user has to call **Wire.begin()** and can optionally set the Wire pins 

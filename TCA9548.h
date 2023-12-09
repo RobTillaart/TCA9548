@@ -72,6 +72,7 @@ protected:
 //
 class PCA9548 : public TCA9548
 {
+public:
   PCA9548(uint8_t deviceAddress, TwoWire *wire = &Wire);
 };
 

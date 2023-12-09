@@ -150,7 +150,7 @@ int TCA9548::getError()
 //
 //  DERIVED CLASS
 //
-PCA9548(uint8_t deviceAddress, TwoWire *wire) : TCA9548(deviceAddress, wire)
+PCA9548::PCA9548(uint8_t deviceAddress, TwoWire *wire) : TCA9548(deviceAddress, wire)
 {
 }
 

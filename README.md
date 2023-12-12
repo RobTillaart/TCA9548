@@ -11,25 +11,33 @@
 
 # TCA9548
 
-Arduino Library for TCA9548 I2C multiplexer.
+Arduino Library for TCA9548 I2C multiplexer and compatibles.
 
 
 ## Description
 
-Library for the TCA9548 and TCA9548a (PCA9548, PCA9548a) I2C multiplexer.
+Library for the TCA9548 and TCA9548a (PCA9548, PCA9548a, PCA9546, PCA9545, PCA9543) I2C multiplexer.
 
 The library allows you to enable 0 to 7 I2C channels (ports) uniquely or simultaneously.
-This is especially useful if you have multiple devices/sensors that have a fixed address,
-or you have address conflicts between I2C devices
+In fact the TCA9548 is therefore a **switch**, although often named a multiplexer.
+A multiplexer is especially useful if you have multiple identical devices that have a fixed address,
+a too small address range or if there are address conflicts between different I2C devices.
 
 **Warning**
 The library is not tested extensively.
 
-I2C address of the device itself is 0x70 .. 0x77.
-This address may not be used on any of the I2C channels of course.
-
 The library caches the channels enabled, and if a channel is enabled,
 it will not be enabled again (low level) to optimize performance.
+
+#### I2C 
+
+I2C address of the device itself is 0x70 .. 0x77.
+This address can not be used on any of the I2C channels of course.
+
+Note if your first multiplexer is 0x70, you may have an array of 0x71 multiplexers behind it.
+(giving you 8 x 8 = 64 I2C buses, a lot of admin overhead and probably performance penalties).
+
+Pull-up resistors are REQUIRED on all upstream and downstream channels.
 
 
 #### 0.2.0 Breaking change
@@ -43,21 +51,23 @@ before calling **begin()**.
 
 #### Compatible devices
 
-This library is expected to work for the PCA9548(a) too as the TCA is pin compatible newer version.
+This library is expected to work for the following devices: (since 0.2.1)
 
 |  Device    |  Tested  |  Notes  |
 |:-----------|:--------:|:-------:|
 |  TCA9548s  |    n     |
 |  PCA9548   |    n     |  see links below  |
 |  PCA9548a  |    n     |
+|  PCA9546   |    n     |  see links below  |
+|  PCA9545   |    n     |  see links below  |
+|  PCA9543   |    n     |  see links below  |
 
-
+Note: not tested with hardware yet.
 
 There are however small differences, check the data sheets to see the details.
 - [difference TCA PCA](https://e2e.ti.com/support/interface-group/interface/f/interface-forum/815758/faq-what-is-the-difference-between-an-i2c-device-with-the-family-name-pca-and-tca)
 - https://electronics.stackexchange.com/questions/209616/is-nxps-pca9548a-compatible-with-tis-tca9548a
 - https://www.nxp.com/docs/en/application-note/AN262.pdf
-
 
 
 #### Related
@@ -84,9 +94,16 @@ Set mask of channels to be enabled, default all disabled.
 - **bool isConnected()** returns true if address of the multiplexer is found on I2C bus.
 
 
-The derived class PCA9548 has same interface, except constructor.
+The derived classes PCA9548/PCA9546 have the same interface, except constructor.
+(see #15)
 
 - **PCA9548(const uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor.
+deviceAddress = 0x70 .. 0x77, wire = Wire or WireN.
+- **PCA9546(const uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor.
+deviceAddress = 0x70 .. 0x77, wire = Wire or WireN.
+- **PCA9545(const uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor.
+deviceAddress = 0x70 .. 0x77, wire = Wire or WireN.
+- **PCA9543(const uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor.
 deviceAddress = 0x70 .. 0x77, wire = Wire or WireN.
 
 
@@ -132,38 +149,26 @@ Note that writes are only optimized if the channels are already set.
 - **bool getForced()** returns set flag.
 
 
+#### Interrupts
+
+The PCA9545 and PCA9543 do support interrupts. 
+These two derived classes have implemented
+
+- **uint8_t getInterruptMask()** function that returns a bit mask of interrupts set.
+
+
 ## Error Codes
 
-Not implemented yet, preparation for 0.2.0.
+Not implemented yet, preparation for future.
 
 |  name                   |  value  |  description            |
 |:------------------------|:-------:|:------------------------|
-|  TCA9548_OK             |  00     |  no error               |
+|  TCA9548_OK             |   00    |  no error               |
 |  TCA9548_ERROR_I2C      |  -10    |  detected an I2C error  |
 |  TCA9548_ERROR_CHANNEL  |  -20    |  channel out of range   |
 
 
 ## Future
-
-#### PCA954X family
-
-To investigate if these can be made in one derived class tree.
-
-|  chip     |  address  |  channel  |  interrupt  |  reset  |  notes  |
-|:---------:|:---------:|:---------:|:-----------:|:-------:|:-------:|
-|  PCA9540  |     -     |     2     |             |         |  address programmable
-|  PCA9641  |  4 pins   |     2     |             |         |  master selector
-|  PCA9542  |  3 pins   |     2     |   Y         |         |
-|  PCA9543  |  2 pins   |     2     |   Y         |    Y    |
-|  PCA9544  |  3 pins   |     4     |   Y         |         |
-|  PCA9545  |  2 pins   |     4     |   Y         |    Y    |
-|  PCA9546  |  3 pins   |     4     |             |    Y    |
-|  PCA9548  |  3 pins   |     8     |             |    Y    |  equals TCA9648 
-
-- Most could work if a "channels" was defined and if internals are enough similar.
-- RESET pin is supported in TCA9548
-- INT is more a user code issue.
-- might need a **type()**?
 
 
 #### Must
@@ -176,9 +181,6 @@ To investigate if these can be made in one derived class tree.
 - add examples.
 - test test and test.
 - write unit test.
-- create derived classes for compatible devices (0.2.0).
-  - see above PCA9548 and PCA9548a.
-- investigate support derived classes
 
 
 #### Could

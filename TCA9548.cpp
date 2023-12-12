@@ -213,7 +213,7 @@ uint8_t PCA9545::getInterruptMask()
 //
 //  PCA9548
 //
-PCA9546::PCA9543(uint8_t deviceAddress, TwoWire *wire) : TCA9548(deviceAddress, wire)
+PCA9543::PCA9543(uint8_t deviceAddress, TwoWire *wire) : TCA9548(deviceAddress, wire)
 {
   _channels = 2;
 }
@@ -228,7 +228,7 @@ uint8_t PCA9543::getChannelMask()
   return _mask &= 0x03;
 }
 
-uint8_t PCA9545::getInterruptMask()
+uint8_t PCA9543::getInterruptMask()
 {
   _wire->requestFrom(_address, (uint8_t)1);
   uint8_t mask = _wire->read();

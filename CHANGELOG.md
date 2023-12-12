@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - PCA9543 (2 channel), PCA9545 (4 channel), PCA9546 (4 channel)
 - add **uint8_t getInterruptMask()**
 - fix begin() : remove wire-> begin() as dependency should be outside lib
+- fix readme.md
 
 
 ## [0.2.0] - 2023-12-09

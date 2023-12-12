@@ -31,8 +31,7 @@ bool TCA9548::begin(uint8_t mask)
 
 bool TCA9548::isConnected()
 {
-  _wire->beginTransmission(_address);
-  return ( _wire->endTransmission() == 0);
+  return isConnected(_address);
 }
 
 

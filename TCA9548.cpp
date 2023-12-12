@@ -23,7 +23,6 @@ TCA9548::TCA9548(uint8_t deviceAddress, TwoWire *wire)
 
 bool TCA9548::begin(uint8_t mask)
 {
-  _wire->begin();
   if (! isConnected()) return false;
   setChannelMask(mask);
   return true;

@@ -68,7 +68,6 @@ protected:
   bool      _forced;
   int       _error;
   uint8_t   _channels;         //  PCA954x support.
-  uint8_t   _type;             //  PCA954x support.
 };
 
 

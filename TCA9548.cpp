@@ -44,10 +44,8 @@ bool TCA9548::isConnected(uint8_t address)
 
 bool TCA9548::isConnected(uint8_t address, uint8_t channel)
 {
-  if (channel >= _channels) return false;
-  selectChannel(channel);
-  _wire->beginTransmission(address);
-  return ( _wire->endTransmission() == 0);
+  if (!selectChannel(channel)) return false;
+  return isConnected(_address);
 }
 
 

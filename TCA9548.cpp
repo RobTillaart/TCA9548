@@ -85,8 +85,7 @@ bool TCA9548::disableChannel(uint8_t channel)
 bool TCA9548::selectChannel(uint8_t channel)
 {
   if (channel >= _channels) return false;
-  setChannelMask(0x01 << channel);
-  return true;
+  return setChannelMask(0x01 << channel);
 }
 
 
